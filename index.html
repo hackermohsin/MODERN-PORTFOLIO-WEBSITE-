@@ -599,7 +599,7 @@
 
 
            // --- Active Nav Link & Reveal on Scroll ---
-           const sections = document.querySelectorAll('section');
+           const sections = document.querySelectorAll('main > section[id]');
            const navLinks = document.querySelectorAll('.nav-link');
            const revealElements = document.querySelectorAll('.reveal');
 
@@ -620,9 +620,13 @@
            const navObserver = new IntersectionObserver((entries, observer) => {
                entries.forEach(entry => {
                    if (entry.isIntersecting) {
+                       const targetId = entry.target.id;
+                       if (!targetId) {
+                           return;
+                       }
                        navLinks.forEach(link => {
                            link.classList.remove('nav-active');
-                           if (link.getAttribute('href').substring(1) === entry.target.id) {
+                           if (link.getAttribute('href').substring(1) === targetId) {
                                link.classList.add('nav-active');
                            }
                        });
